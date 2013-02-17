@@ -33,30 +33,22 @@ import android.os.AsyncTask;
 
 				@Override
 				protected Bitmap doInBackground(String... info){
-					
 					URL iotd;
 					int count=info.length;
 					String title="",link="",description="",date="";
 					
-					System.out.println("Number of params is "+count);
-					
 					try{
 						
-						iotd = new URL("http://www.nasa.gov/rss/lg_image_of_the_day.rss");//set URl
-						BufferedReader in;//new BufferedReader
-						in = new BufferedReader(new InputStreamReader(iotd.openStream()));//get rss
-						
+						iotd = new URL("http://www.nasa.gov/rss/lg_image_of_the_day.rss");//set URl						 
+						BufferedReader in = new BufferedReader(new InputStreamReader(iotd.openStream()));//get rss
 						XmlPullParserFactory factory;
 						factory = XmlPullParserFactory.newInstance();//new factory
 						factory.setNamespaceAware(true);
 						XmlPullParser xpp;
 						xpp = factory.newPullParser();
 						xpp.setInput(in);
-
-						//rss is now parsed, free to use XmlPullParser functions to move around and evaulate the rss
-					
-						int eventType;
-						eventType = xpp.getEventType();//returns an int which mean different things (START_DOCUMENT,START_TAG,etc)
+						
+						int eventType = xpp.getEventType();//returns an int which mean different things (START_DOCUMENT,START_TAG,etc)
 					
 			
 					while(eventType!=XmlPullParser.END_DOCUMENT){//while the document has words
@@ -142,11 +134,8 @@ import android.os.AsyncTask;
 
 				protected void onPostExecute(Bitmap image){//error when doing this in resetDisplay.... onPostExecute is invoked by the ui thread so this may be why it works here and not in resetDisplay
 					ImageView imageView=(ImageView) parent.findViewById(R.id.imageDisplay);
-			    	imageView.setImageBitmap(image); //image is null here on n7
-			    	//setFinal_image(image);
-			    	dialog.dismiss();
-			    	totalTime=System.nanoTime()-startTime;
-			    	System.out.println(totalTime);
+			    	imageView.setImageBitmap(image); 
+			    	dialog.dismiss(); 
 				}
 				
 				protected void onPreExecute(){
@@ -155,8 +144,7 @@ import android.os.AsyncTask;
 					}
 					
 					nullAllViews();
-					startTime=System.nanoTime();
-					 dialog=ProgressDialog.show(parent, "Loading", "Loading the image of the day");
+					dialog=ProgressDialog.show(parent, "Loading", "Loading the image of the day");
 				}
 				
 			    private void resetDisplay(String title, String description,String date, String link) throws MalformedURLException, IOException{
@@ -217,8 +205,6 @@ import android.os.AsyncTask;
 			    	//raw height and width of image
 			    	final int height=options.outHeight;
 			    	final int width=options.outWidth;
-			    	//reqWidth-=500;
-			    	//reqHeight-=500;
 			    	int inSampleSize=1; //powers of 2 are most efficient
 			    	
 			    
@@ -226,7 +212,6 @@ import android.os.AsyncTask;
 			    		while(width/inSampleSize>=reqWidth && height/inSampleSize>=reqHeight)
 			                inSampleSize*=2;
 			    	}
-			    	System.out.println(inSampleSize);
 			    	return inSampleSize;
 			 
 			    }
@@ -234,12 +219,6 @@ import android.os.AsyncTask;
 			    public Bitmap getFinalProcessedImage(){
 			    	return final_image;
 			    }
-
-
-				//public static Bitmap getFinal_image() {
-				//	return final_image;
-			//	}
-
 
 				public void setFinal_image(Bitmap img) {
 					final_image = img;

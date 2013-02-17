@@ -1,24 +1,18 @@
 package com.wajumbie.nasadailyimage;
 
-
-
-
 import java.io.File;
 import java.io.FileOutputStream;
-
 import android.support.v4.app.Fragment;
 import android.app.ProgressDialog;
 import android.app.WallpaperManager;
 import android.content.Intent;
 import android.graphics.Bitmap;
-
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
-
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -35,8 +29,8 @@ public class NasaDailyImage extends Fragment{
 	private String description="";
 	private String date="";
 	private ProgressDialog dog;
-	Handler handler=new Handler();
 	private Bundle savedInstanceState;
+	private Handler handler=new Handler();
 	
 	@Override
     public void onCreate(Bundle savedInstanceState) {
@@ -46,23 +40,14 @@ public class NasaDailyImage extends Fragment{
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater,ViewGroup container, Bundle savedInstanceState){
-        
-        System.out.println("in onCreateView");
 		return inflater.inflate(R.layout.main, container,false);
-		
-
 	}
 	
 	@Override
 	public void onStart(){
 		super.onStart();
-		
-
-		long heapSize = Runtime.getRuntime().maxMemory();
-		System.out.println("heapsize is "+heapSize/1000);
 		getActivity().findViewById(R.id.fragment_iotd);
 		registerForContextMenu(getActivity().findViewById(R.id.imageDisplay));//register the view which the context menu is associated with
-		System.out.println("In onStart");
 	}
 	
     public void onRefresh(){
@@ -139,11 +124,10 @@ public class NasaDailyImage extends Fragment{
     	thread.start();
     		
     		
-    	       FileOutputStream out = new FileOutputStream(dir+"/"+imageName+".png");
-    	       img.compress(Bitmap.CompressFormat.PNG, 90, out);
-    	       Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
-       	   // File f = new File(out.toString());
-    	       File f = new File(dir+"/"+imageName+".png");
+    	    FileOutputStream out = new FileOutputStream(dir+"/"+imageName+".png");
+    	    img.compress(Bitmap.CompressFormat.PNG, 90, out);
+    	    Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+    	    File f = new File(dir+"/"+imageName+".png");
        	    Uri contentUri = Uri.fromFile(f);
        	    mediaScanIntent.setData(contentUri);
        	    getActivity().sendBroadcast(mediaScanIntent);
@@ -154,6 +138,7 @@ public class NasaDailyImage extends Fragment{
     	}
     	return false;
     }
+    
 	public void onSetWallpaper(){
     	Thread th=new Thread(){
     		public void run(){
