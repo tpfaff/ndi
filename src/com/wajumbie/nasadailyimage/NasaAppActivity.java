@@ -1,9 +1,10 @@
 
-/*-------------------
+/*
+ * -------------------
  * Author:Tyler Pfaff
  * App Version: 1.6 
  * Target: 4.0+
- *-------------------
+ * -------------------
  */
 
 package com.wajumbie.nasadailyimage;
@@ -20,9 +21,9 @@ import android.widget.Toast;
 
 
 public class NasaAppActivity extends FragmentActivity {
+	
     private Bundle savedInstanceState;
 
-    
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,10 +48,10 @@ public class NasaAppActivity extends FragmentActivity {
 		createAlbum();
 	}
 	
-	  @Override
-	    public void onSaveInstanceState(Bundle outState){
-	    	super.onSaveInstanceState(outState);
-	    	this.savedInstanceState=outState;
+	@Override
+	public void onSaveInstanceState(Bundle outState){
+		super.onSaveInstanceState(outState);
+	    this.savedInstanceState=outState;
 	    }
 	
     private boolean createAlbum() {
@@ -71,6 +72,7 @@ public class NasaAppActivity extends FragmentActivity {
 	   NasaDailyImage NasaDailyFragment=(NasaDailyImage)fragmentManager.findFragmentById(R.id.fragment_iotd);
        NasaDailyFragment.onRefresh();
 		 }
+   
    }
    
 
