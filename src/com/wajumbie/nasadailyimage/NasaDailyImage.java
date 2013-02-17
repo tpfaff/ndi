@@ -68,7 +68,6 @@ public class NasaDailyImage extends Fragment{
     public void onRefresh(){
     	System.out.println("in onRefresh");
     	new RssParseSync(getActivity()).execute(title,description,date,link);
-    	//new BreakingNewsParse (getActivity()).execute();
     }
     
     @Override
