@@ -196,7 +196,7 @@ import android.os.AsyncTask;
 			    	}catch(Exception e){
 			    		e.printStackTrace();
 			    	}
-		    	
+			    	
 			    	return final_image;
 			    }
 			    

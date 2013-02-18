@@ -4,9 +4,10 @@
     android:layout_width="match_parent"
     android:layout_height="fill_parent"
     android:id="@+id/phone_layout"
+    android:background="#000000"
      >
  <ScrollView 
-      android:layout_width="0dip"
+      android:layout_width="0dp"
       android:layout_height="wrap_content"
       android:layout_weight="1"
        >
@@ -22,6 +23,7 @@
     	android:layout_width="match_parent"
     	android:layout_height="wrap_content"
     	android:gravity="center_horizontal"
+    	android:layout_marginTop="15dp"
     	/>
     
     <TextView 
@@ -37,28 +39,16 @@
         android:layout_height="400dp"
         android:layout_gravity="center"
         android:contentDescription="@string/contentDescription"
-         />
-
-
+        />
+ 
     <TextView 
         android:id="@+id/imageDescription"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginBottom="15dp"
         />
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:gravity="center"
-    >
-    <Button
-        android:id="@+id/button1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/refresh" 
-        android:onClick="onRefreshClicked"
-        /> 
-    
- </LinearLayout>
+
 		</LinearLayout>
 	</ScrollView>
 	
