@@ -1,3 +1,8 @@
+/* -------------------
+ * Author:Tyler Pfaff
+ * 2/19/2013 
+ * Target: 4.0+
+ * -------------------*/
 package com.wajumbie.nasadailyimage;
 
 import java.io.File;
@@ -37,7 +42,6 @@ public class NasaDailyImage extends Fragment{
 	@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.savedInstanceState=savedInstanceState;
     } 
 	
 	@Override

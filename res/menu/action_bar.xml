@@ -9,18 +9,17 @@ style="@style/CustomActionBarStyle"
           android:title="Refresh"
           android:showAsAction="ifRoom"
           />
-      <item
-		    android:id="@+id/wallpaper_set"
-		    android:icon="@drawable/wallpaper_set"
-		    android:title="Set Wallpaper"
-		    android:showAsAction=""
-		    
-		    />
-      <item
+       <item
           android:id="@+id/content_save"
           android:icon="@drawable/content_save"
           android:title="Save"
           android:showAsAction="ifRoom"
           />
+      <item
+		    android:id="@+id/wallpaper_set"
+		    android:icon="@drawable/wallpaper_set"
+		    android:title="Set Wallpaper"
+		    />
+     
 		
 </menu>

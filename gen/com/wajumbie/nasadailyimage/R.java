@@ -24,7 +24,7 @@ public final class R {
     public static final class id {
         public static final int action_bar_menu=0x7f080006;
         public static final int content_refresh=0x7f080007;
-        public static final int content_save=0x7f080009;
+        public static final int content_save=0x7f080008;
         public static final int fragment_iotd=0x7f080000;
         public static final int imageDate=0x7f080003;
         public static final int imageDescription=0x7f080005;
@@ -34,7 +34,7 @@ public final class R {
         public static final int phone_layout=0x7f080001;
         public static final int save=0x7f08000c;
         public static final int wallpaper=0x7f08000b;
-        public static final int wallpaper_set=0x7f080008;
+        public static final int wallpaper_set=0x7f080009;
     }
     public static final class layout {
         public static final int activity_nasa_app=0x7f030000;

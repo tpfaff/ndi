@@ -1,3 +1,8 @@
+/* -------------------
+ * Author:Tyler Pfaff
+ * 2/19/2013 
+ * Target: 4.0+
+ * -------------------*/
 package com.wajumbie.nasadailyimage;
 
 
@@ -132,7 +137,8 @@ import android.os.AsyncTask;
 				}
 
 
-				protected void onPostExecute(Bitmap image){//error when doing this in resetDisplay.... onPostExecute is invoked by the ui thread so this may be why it works here and not in resetDisplay
+				protected void onPostExecute(Bitmap image){
+					//error when doing this in resetDisplay.... onPostExecute is invoked by the ui thread so this may be why it works here and not in resetDisplay
 					ImageView imageView=(ImageView) parent.findViewById(R.id.imageDisplay);
 			    	imageView.setImageBitmap(image); 
 			    	dialog.dismiss(); 
@@ -178,7 +184,8 @@ import android.os.AsyncTask;
 			    }
 			    
 			    private Bitmap getResizedImage(final String imageUrl){
-
+			    	int height;
+			    	int width;
 			    	try{
 			    		
 			    	BitmapFactory.Options options = new BitmapFactory.Options();
@@ -186,8 +193,8 @@ import android.os.AsyncTask;
 			    	BitmapFactory.decodeStream(new URL(imageUrl).openStream(),null,options);
 			    	DisplayMetrics displaymetrics=new DisplayMetrics();
 			    	parent.getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
-			    	int height=displaymetrics.heightPixels-25;
-			    	int width=displaymetrics.widthPixels-25;
+			    	height=displaymetrics.heightPixels-25;
+			    	width=displaymetrics.widthPixels-25;
 
 			    	options.inSampleSize=calculateInSampleSize(options, width ,height);
 			    	options.inJustDecodeBounds=false;
