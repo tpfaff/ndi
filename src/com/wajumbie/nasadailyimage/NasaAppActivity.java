@@ -31,10 +31,11 @@ public class NasaAppActivity extends FragmentActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         createAlbum(); 
-        if(savedInstanceState==null){
         setContentView(R.layout.activity_nasa_app);
+        
+  //      if(savedInstanceState==null){
         NasaDailyImage NasaDailyFragment=(NasaDailyImage)getSupportFragmentManager().findFragmentById(R.id.fragment_iotd);
-        }
+      //  }
         this.savedInstanceState=savedInstanceState;
     }
     
