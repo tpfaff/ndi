@@ -9,9 +9,6 @@
 package com.wajumbie.nasadailyimage;
 
 import java.io.File;
-
-
-
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentActivity;
 import android.app.ActionBar;
@@ -35,25 +32,27 @@ public class NasaAppActivity extends FragmentActivity implements ActionBar.TabLi
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+       
         createAlbum(); 
-        setContentView(R.layout.activity_nasa_app);
-        final ActionBar actionBar = getActionBar();
-		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-		actionBar.addTab(actionBar.newTab().setText("Image of the day")
-				.setTabListener(this));
-		actionBar.addTab(actionBar.newTab().setText("Breaking news")
-				.setTabListener(this));
-        NasaDailyImage NasaDailyFragment=(NasaDailyImage)getSupportFragmentManager().findFragmentById(R.id.fragment_iotd);
+        setContentView(R.layout.main_activity);
+       
+		
+		
+		NasaDailyImage NasaDailyFragment=new NasaDailyImage();
+        getSupportFragmentManager().beginTransaction().add(R.id.focused_view_container,NasaDailyFragment).commit();
+        
+       
         this.savedInstanceState=savedInstanceState;
     }
     
     @Override
     public void onStart(){
     	super.onStart(); 	
-    	if(savedInstanceState==null){
+    	
+    	/*if(savedInstanceState==null){
     		RssParseSync init=new RssParseSync(this);
     		onRefreshClicked(null);
-    	}
+    	}*/
     }
 	
 	@Override
@@ -68,29 +67,30 @@ public class NasaAppActivity extends FragmentActivity implements ActionBar.TabLi
 	       ActionBar actionBar = getActionBar(); 
 	       actionBar.setTitle("");
 	       inflater.inflate(R.menu.action_bar, menu);
-	      
+	      // actionBar=getActionBar();
+	        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+			actionBar.addTab(actionBar.newTab().setText("Image of the day")
+					.setTabListener(this));
+			actionBar.addTab(actionBar.newTab().setText("Breaking news")
+					.setTabListener(this));
 	       return true;
 	    }
-	 
+
 	
 	@Override
 	public boolean onMenuItemSelected(int featureId, MenuItem item) {
-		FragmentManager fragmentManager=getSupportFragmentManager();
-		NasaDailyImage NasaDailyFragment;
+		NasaDailyImage NasaDailyFragment=new NasaDailyImage();
 		switch(item.getItemId()){
-		
+
 		case R.id.content_save:
-			NasaDailyFragment=(NasaDailyImage)fragmentManager.findFragmentById(R.id.fragment_iotd);  
 			NasaDailyFragment.onSaveImage();
 			break;
 			
 		case R.id.content_refresh:
-			NasaDailyFragment=(NasaDailyImage)fragmentManager.findFragmentById(R.id.fragment_iotd);
 			NasaDailyFragment.onRefresh();
 			break;
 			
 		case R.id.wallpaper_set:
-			NasaDailyFragment=(NasaDailyImage)fragmentManager.findFragmentById(R.id.fragment_iotd);
 			NasaDailyFragment.onSetWallpaper();
 			break;
 		}
@@ -123,8 +123,7 @@ public class NasaAppActivity extends FragmentActivity implements ActionBar.TabLi
    public void onRefreshClicked(View view){
 	   //Refreshes all views and information
 	   Log.d("debug", "in onRefreshClicked");
-	   FragmentManager fragmentManager=getSupportFragmentManager();
-	   NasaDailyImage NasaDailyFragment=(NasaDailyImage)fragmentManager.findFragmentById(R.id.fragment_iotd); 
+	   NasaDailyImage NasaDailyFragment=new NasaDailyImage();
 	   NasaDailyFragment.onRefresh();
 		 }
 
@@ -136,9 +135,11 @@ public void onTabReselected(Tab tab, FragmentTransaction ft) {
 public void onTabSelected(Tab tab, FragmentTransaction ft) {
 	switch(tab.getPosition()){
 	case 0:
-		onRefreshClicked(null);
+		//onRefreshClicked(null);
 	case 1:
-	
+		BreakingNewsFragment news=new BreakingNewsFragment();
+         getFragmentManager().beginTransaction().add(R.id.focused_view_container, news).commit();
+         
 	}
 	
 }

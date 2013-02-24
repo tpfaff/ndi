@@ -46,14 +46,13 @@ public class NasaDailyImage extends Fragment{
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater,ViewGroup container, Bundle savedInstanceState){
-		return inflater.inflate(R.layout.main, container,false);
+		return inflater.inflate(R.layout.nasa_daily_image_layout, container,false);
 	}
 	
 	@Override
 	public void onStart(){
 		super.onStart();
-		getActivity().findViewById(R.id.fragment_iotd);
-		registerForContextMenu(getActivity().findViewById(R.id.imageDisplay));//register the view which the context menu is associated with
+		
 	}
 	
     public void onRefresh(){
