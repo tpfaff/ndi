@@ -69,6 +69,7 @@ import android.os.AsyncTask;
 							if(tagName.equals("title")&& xpp.getDepth()==4){//depth is specific to this certain rss feed, there are multiple tags with the same names
 								info[0]=xpp.nextText();
 								title=info[0];
+								
 
 							}
 							
@@ -78,6 +79,7 @@ import android.os.AsyncTask;
 								StringBuilder tabbed=new StringBuilder(description);
 								tabbed.insert(0, "\t");
 								description=tabbed.toString();
+								//removeHTML(info[1],"colorful");
 								//info[1]=description;
 							}
 							
@@ -117,6 +119,14 @@ import android.os.AsyncTask;
 					
 					return image;
 				}
+				private void removeHTML(String text,String tag) {
+					
+					
+							text.replace(tag, "");
+						
+					}
+					
+				
 				@Override
 				protected void onProgressUpdate(String... progress){
 					try {
