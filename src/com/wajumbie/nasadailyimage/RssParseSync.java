@@ -163,7 +163,7 @@ import android.os.AsyncTask;
 					//error when doing this in resetDisplay.... onPostExecute is invoked by the ui thread so this may be why it works here and not in resetDisplay
 					ImageView imageView=(ImageView) v.findViewById(R.id.imageDisplay);
 			    	imageView.setImageBitmap(image); 
-			    	//dialog.dismiss(); 
+			    	dialog.dismiss(); 
 				}
 				
 			    protected void onPreExecute(){
@@ -173,7 +173,7 @@ import android.os.AsyncTask;
 					
 					nullAllViews();
 					
-					//dialog=ProgressDialog.show(mainActivity, "Loading", "Loading the image of the day");
+					dialog=ProgressDialog.show(mainActivity, "Loading", "Loading the image of the day");
 				}
 				
 			    private void resetDisplay(String title, String description,String date, String link) throws MalformedURLException, IOException{
