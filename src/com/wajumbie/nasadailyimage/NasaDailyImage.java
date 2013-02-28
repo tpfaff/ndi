@@ -8,9 +8,11 @@ package com.wajumbie.nasadailyimage;
 import java.io.File;
 import java.io.FileOutputStream;
 import android.support.v4.app.Fragment;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.app.WallpaperManager;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -26,6 +28,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView.AdapterContextMenuInfo;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -38,15 +42,29 @@ public class NasaDailyImage extends Fragment{
 	private ProgressDialog dog;
 	private Bundle savedInstanceState;
 	private Handler handler=new Handler();
+	private static View ndiView;
+	private Activity mainActivity;
 	
+	
+	public NasaDailyImage(Activity mainActivity) {
+		this.mainActivity = mainActivity;
+	}
+
+	public NasaDailyImage() {
+		// TODO Auto-generated constructor stub
+	}
+
 	@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+       
+    //  String what= mainActivity.toString();
     } 
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater,ViewGroup container, Bundle savedInstanceState){
-		return inflater.inflate(R.layout.nasa_daily_image_layout, container,false);
+		ndiView= inflater.inflate(R.layout.nasa_daily_image_layout, container,false);
+		return ndiView;
 	}
 	
 	@Override
@@ -57,7 +75,11 @@ public class NasaDailyImage extends Fragment{
 	
     public void onRefresh(){
     	System.out.println("in onRefresh");
-    	new RssParseSync(getActivity()).execute(title,description,date,link);
+    		
+	    	
+			
+		String result=mainActivity.toString();
+    	new RssParseSync(ndiView,mainActivity).execute(title,description,date,link);
     }
 
     
@@ -78,6 +100,7 @@ public class NasaDailyImage extends Fragment{
 			handler.post(new Runnable(){
 				public void run(){
 					Toast.makeText(getActivity(), "Saved", Toast.LENGTH_SHORT).show();
+					
 				}});
 			
 		}else{
@@ -130,7 +153,7 @@ public class NasaDailyImage extends Fragment{
             public void onClick(DialogInterface dialog, int whichButton) {
             	Thread th=new Thread(){
             		public void run(){
-            			RssParseSync retriever=new RssParseSync(getActivity());
+            			RssParseSync retriever=new RssParseSync(null,mainActivity); //****************************
             			WallpaperManager wallpaperManager=WallpaperManager.getInstance(getActivity());
             			try{
             				

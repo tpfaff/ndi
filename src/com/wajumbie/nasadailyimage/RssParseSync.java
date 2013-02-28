@@ -10,12 +10,15 @@ import java.io.*;
 import java.net.*;
 
 import android.util.DisplayMetrics;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import org.xmlpull.v1.*;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.app.WallpaperManager;
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
@@ -24,16 +27,25 @@ import android.os.AsyncTask;
 
 	public class RssParseSync extends AsyncTask<String,String,Bitmap>{  
 
-		private Activity parent;
+		private Context parent;
 		private ProgressDialog dialog;
 		private static Bitmap final_image; //must be static because a new instance is required to access getFinalImage();
 		private String imageURL="";
 		private static String imageName;
 		private long totalTime;
 		private long startTime;
+		private static View v;
+		private Activity mainActivity;
 		
 
-		public RssParseSync(Activity parent){this.parent =parent;}//constructor to pass parent activity, need this to call findViewById
+		public RssParseSync(View v,Activity mainActivity){
+			
+			this.v=v;
+			this.mainActivity=mainActivity;
+
+			String result=mainActivity.toString();
+		}//constructor to pass parent activity, need this to call findViewById
+		
 		public RssParseSync(){}
 
 				@Override
@@ -147,33 +159,34 @@ import android.os.AsyncTask;
 				}
 
 
-				protected void onPostExecute(Bitmap image){
+			    protected void onPostExecute(Bitmap image){
 					//error when doing this in resetDisplay.... onPostExecute is invoked by the ui thread so this may be why it works here and not in resetDisplay
-					ImageView imageView=(ImageView) parent.findViewById(R.id.imageDisplay);
+					ImageView imageView=(ImageView) v.findViewById(R.id.imageDisplay);
 			    	imageView.setImageBitmap(image); 
-			    	dialog.dismiss(); 
+			    	//dialog.dismiss(); 
 				}
 				
-				protected void onPreExecute(){
+			    protected void onPreExecute(){
 					if(final_image!=null){
 						final_image.recycle();
 					}
 					
 					nullAllViews();
-					dialog=ProgressDialog.show(parent, "Loading", "Loading the image of the day");
+					
+					//dialog=ProgressDialog.show(mainActivity, "Loading", "Loading the image of the day");
 				}
 				
 			    private void resetDisplay(String title, String description,String date, String link) throws MalformedURLException, IOException{
 			    	
 			    	nullAllViews();
 			    	
-			    	TextView titleView=(TextView) parent.findViewById(R.id.imageTitle);
+			    	TextView titleView=(TextView) v.findViewById(R.id.imageTitle);
 			    	titleView.setText(title);
 			    	
-			    	TextView dateView=(TextView) parent.findViewById(R.id.imageDate);
+			    	TextView dateView=(TextView) v.findViewById(R.id.imageDate);
 			    	dateView.setText(date);
 
-			    	TextView descriptionView=(TextView) parent.findViewById(R.id.imageDescription);
+			    	TextView descriptionView=(TextView) v.findViewById(R.id.imageDescription);
 			    	descriptionView.setText(description);
 			    	
 				//	ImageView imageView=(ImageView) parent.findViewById(R.id.imageDisplay);
@@ -202,9 +215,9 @@ import android.os.AsyncTask;
 			    	options.inJustDecodeBounds=true;
 			    	BitmapFactory.decodeStream(new URL(imageUrl).openStream(),null,options);
 			    	DisplayMetrics displaymetrics=new DisplayMetrics();
-			    	parent.getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
-			    	height=displaymetrics.heightPixels-25;
-			    	width=displaymetrics.widthPixels-25;
+			    	mainActivity.getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
+			    	height=displaymetrics.heightPixels/2;
+			    	width=displaymetrics.widthPixels/2;
 
 			    	options.inSampleSize=calculateInSampleSize(options, width ,height);
 			    	options.inJustDecodeBounds=false;
@@ -213,7 +226,7 @@ import android.os.AsyncTask;
 			    	}catch(Exception e){
 			    		e.printStackTrace();
 			    	}
-			    	
+			    	String what=final_image.toString();
 			    	return final_image;
 			    }
 			    
@@ -237,25 +250,26 @@ import android.os.AsyncTask;
 			    	return final_image;
 			    }
 
-				public void setFinal_image(Bitmap img) {
+			    public void setFinal_image(Bitmap img) {
 					final_image = img;
 				}
 				
-				public String getImageName(){
+			    public String getImageName(){
 					return imageName;
 				}
 			  
-				private void nullAllViews(){
-					TextView titleView=(TextView) parent.findViewById(R.id.imageTitle);
+			    private void nullAllViews(){
+					TextView titleView;
+					titleView=(TextView) v.findViewById(R.id.imageTitle);
 			    	titleView.setText(null);
 			    	
-			    	TextView dateView=(TextView) parent.findViewById(R.id.imageDate);
+			    	TextView dateView=(TextView) v.findViewById(R.id.imageDate);
 			    	dateView.setText(null);
 
-			    	TextView descriptionView=(TextView) parent.findViewById(R.id.imageDescription);
+			    	TextView descriptionView=(TextView) v.findViewById(R.id.imageDescription);
 			    	descriptionView.setText(null);
 			    	
-			    	ImageView imageView=(ImageView) parent.findViewById(R.id.imageDisplay);
+			    	ImageView imageView=(ImageView) v.findViewById(R.id.imageDisplay);
 			    	imageView.setImageBitmap(null);
 			    	
 				}

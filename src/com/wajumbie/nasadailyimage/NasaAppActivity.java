@@ -14,8 +14,10 @@ import android.support.v4.app.FragmentActivity;
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.app.FragmentTransaction;
+import android.content.Context;
 import android.os.Bundle;
 import android.os.Environment;
+import android.util.AttributeSet;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -28,7 +30,7 @@ import android.widget.Toast;
 public class NasaAppActivity extends FragmentActivity implements ActionBar.TabListener{
 	
     private Bundle savedInstanceState;
-
+    private static View mainView;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,8 +40,7 @@ public class NasaAppActivity extends FragmentActivity implements ActionBar.TabLi
        
 		
 		
-		NasaDailyImage NasaDailyFragment=new NasaDailyImage();
-        getSupportFragmentManager().beginTransaction().add(R.id.focused_view_container,NasaDailyFragment).commit();
+		
         
        
         this.savedInstanceState=savedInstanceState;
@@ -48,7 +49,8 @@ public class NasaAppActivity extends FragmentActivity implements ActionBar.TabLi
     @Override
     public void onStart(){
     	super.onStart(); 	
-    	
+    	NasaDailyImage NasaDailyFragment=new NasaDailyImage(this);
+        getSupportFragmentManager().beginTransaction().add(R.id.focused_view_container,NasaDailyFragment).commit();
     	/*if(savedInstanceState==null){
     		RssParseSync init=new RssParseSync(this);
     		onRefreshClicked(null);
@@ -62,10 +64,17 @@ public class NasaAppActivity extends FragmentActivity implements ActionBar.TabLi
 	}
 	
 	 @Override
+	public View onCreateView(String name, Context context, AttributeSet attrs) {
+		// TODO Auto-generated method stub
+		mainView= super.onCreateView(name, context, attrs);
+		return mainView;
+	}
+
+	@Override
 	    public boolean onCreateOptionsMenu(Menu menu) {
 	       MenuInflater inflater=getMenuInflater();
 	       ActionBar actionBar = getActionBar(); 
-	       actionBar.setTitle("");
+	       actionBar.setTitle("what what");
 	       inflater.inflate(R.menu.action_bar, menu);
 	      // actionBar=getActionBar();
 	        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
@@ -79,7 +88,7 @@ public class NasaAppActivity extends FragmentActivity implements ActionBar.TabLi
 	
 	@Override
 	public boolean onMenuItemSelected(int featureId, MenuItem item) {
-		NasaDailyImage NasaDailyFragment=new NasaDailyImage();
+		NasaDailyImage NasaDailyFragment=new NasaDailyImage(this);
 		switch(item.getItemId()){
 
 		case R.id.content_save:
@@ -123,7 +132,7 @@ public class NasaAppActivity extends FragmentActivity implements ActionBar.TabLi
    public void onRefreshClicked(View view){
 	   //Refreshes all views and information
 	   Log.d("debug", "in onRefreshClicked");
-	   NasaDailyImage NasaDailyFragment=new NasaDailyImage();
+	   NasaDailyImage NasaDailyFragment=new NasaDailyImage(this);
 	   NasaDailyFragment.onRefresh();
 		 }
 
