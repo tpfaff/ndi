@@ -9,12 +9,14 @@
 package com.wajumbie.nasadailyimage;
 
 import java.io.File;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentActivity;
+import android.annotation.TargetApi;
+import android.app.FragmentManager;
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
+import android.app.Activity;
 import android.app.FragmentTransaction;
 import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.AttributeSet;
@@ -27,30 +29,33 @@ import android.widget.Toast;
 
 
 
-public class NasaAppActivity extends FragmentActivity implements ActionBar.TabListener{
+@TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
+public class NasaAppActivity extends Activity implements ActionBar.TabListener{
 	
     private Bundle savedInstanceState;
     private static View mainView;
+    private FragmentTransaction ft;
+    BreakingNewsFragment bnf;
+    NasaDailyImage ndi;
+    
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
        
         createAlbum(); 
-        setContentView(R.layout.main_activity);
-       
-		
-		
-		
-        
-       
+        setContentView(R.layout.main_activity);      
         this.savedInstanceState=savedInstanceState;
     }
     
     @Override
     public void onStart(){
     	super.onStart(); 	
-    	NasaDailyImage NasaDailyFragment=new NasaDailyImage(this);
-        getSupportFragmentManager().beginTransaction().add(R.id.focused_view_container,NasaDailyFragment).commit();
+    	ndi=new NasaDailyImage(this);
+    	bnf=new BreakingNewsFragment(this);
+       ft=getFragmentManager().beginTransaction();
+       ft.add(R.id.focused_view_container,ndi).commit();
+	//	 ndi.onRefresh();
+        //ndi.onRefresh();
     	/*if(savedInstanceState==null){
     		RssParseSync init=new RssParseSync(this);
     		onRefreshClicked(null);
@@ -74,7 +79,7 @@ public class NasaAppActivity extends FragmentActivity implements ActionBar.TabLi
 	    public boolean onCreateOptionsMenu(Menu menu) {
 	       MenuInflater inflater=getMenuInflater();
 	       ActionBar actionBar = getActionBar(); 
-	       actionBar.setTitle("what what");
+	       actionBar.setTitle("");
 	       inflater.inflate(R.menu.action_bar, menu);
 	      // actionBar=getActionBar();
 	        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
@@ -88,19 +93,19 @@ public class NasaAppActivity extends FragmentActivity implements ActionBar.TabLi
 	
 	@Override
 	public boolean onMenuItemSelected(int featureId, MenuItem item) {
-		NasaDailyImage NasaDailyFragment=new NasaDailyImage(this);
+		
 		switch(item.getItemId()){
 
 		case R.id.content_save:
-			NasaDailyFragment.onSaveImage();
+			ndi.onSaveImage();
 			break;
 			
 		case R.id.content_refresh:
-			NasaDailyFragment.onRefresh();
+			ndi.onRefresh();
 			break;
 			
 		case R.id.wallpaper_set:
-			NasaDailyFragment.onSetWallpaper();
+			ndi.onSetWallpaper();
 			break;
 		}
 		return super.onMenuItemSelected(featureId, item);
@@ -129,26 +134,34 @@ public class NasaAppActivity extends FragmentActivity implements ActionBar.TabLi
 		return false;
 	}
 
-   public void onRefreshClicked(View view){
-	   //Refreshes all views and information
-	   Log.d("debug", "in onRefreshClicked");
-	   NasaDailyImage NasaDailyFragment=new NasaDailyImage(this);
-	   NasaDailyFragment.onRefresh();
-		 }
+ 
 
-public void onTabReselected(Tab tab, FragmentTransaction ft) {
+public void onTabReselected(Tab tab, FragmentTransaction f) {
 	// TODO Auto-generated method stub
 	
 }
 
-public void onTabSelected(Tab tab, FragmentTransaction ft) {
+public void onTabSelected(Tab tab, FragmentTransaction f) {
+
 	switch(tab.getPosition()){
 	case 0:
-		//onRefreshClicked(null);
+		ft=getFragmentManager().beginTransaction();
+		if(!ndi.isAdded()){	
+			
+			
+		ft.replace(R.id.focused_view_container, ndi).setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).commit();
+		//	ft.attach(ndi);
+			getFragmentManager().executePendingTransactions();
+			//	ndi.onRefresh();
+		}
+			 
+        break;
 	case 1:
-		BreakingNewsFragment news=new BreakingNewsFragment();
-         getFragmentManager().beginTransaction().add(R.id.focused_view_container, news).commit();
-         
+		ft=getFragmentManager().beginTransaction();
+	//	ft.detach(ndi);
+        ft.replace(R.id.focused_view_container, bnf).commit();
+        getFragmentManager().executePendingTransactions();
+         break;
 	}
 	
 }

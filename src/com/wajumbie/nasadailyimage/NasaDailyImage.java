@@ -7,7 +7,7 @@ package com.wajumbie.nasadailyimage;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import android.support.v4.app.Fragment;
+import android.app.Fragment;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -43,7 +43,7 @@ public class NasaDailyImage extends Fragment{
 	private Bundle savedInstanceState;
 	private Handler handler=new Handler();
 	private static View ndiView;
-	private Activity mainActivity;
+	private static Activity mainActivity;
 	
 	
 	public NasaDailyImage(Activity mainActivity) {
@@ -99,14 +99,14 @@ public class NasaDailyImage extends Fragment{
 		if(galleryAddImg(imageName,img,dir)){
 			handler.post(new Runnable(){
 				public void run(){
-					Toast.makeText(getActivity(), "Saved", Toast.LENGTH_SHORT).show();
+					Toast.makeText(mainActivity, "Saved", Toast.LENGTH_SHORT).show();
 					
 				}});
 			
 		}else{
 			handler.post(new Runnable(){
 				public void run(){
-					Toast.makeText(getActivity(), "Unable to Save!", Toast.LENGTH_SHORT).show();
+					Toast.makeText(mainActivity, "Unable to Save!", Toast.LENGTH_SHORT).show();
 				}
 		});}
     		}
@@ -122,7 +122,7 @@ public class NasaDailyImage extends Fragment{
 				public void run() {
 					handler.post(new Runnable(){
 					public void run(){
-						Toast.makeText(getActivity(), "Saving...", Toast.LENGTH_SHORT).show();
+						Toast.makeText(mainActivity, "Saving...", Toast.LENGTH_SHORT).show();
 					}});
 					
 				}
@@ -145,7 +145,7 @@ public class NasaDailyImage extends Fragment{
     }
     
 	public void onSetWallpaper(){
-        AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
+        AlertDialog.Builder alert = new AlertDialog.Builder(mainActivity);
         alert.setTitle("Set Wallpaper");
         alert.setMessage("Change the wallpaper?");
         alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
@@ -154,26 +154,26 @@ public class NasaDailyImage extends Fragment{
             	Thread th=new Thread(){
             		public void run(){
             			RssParseSync retriever=new RssParseSync(null,mainActivity); //****************************
-            			WallpaperManager wallpaperManager=WallpaperManager.getInstance(getActivity());
+            			WallpaperManager wallpaperManager=WallpaperManager.getInstance(mainActivity);
             			try{
             				
             				handler.post(new Runnable(){
             					public void run(){
-            						Toast.makeText(getActivity(), "Setting wallpaper...", Toast.LENGTH_SHORT).show();
+            						Toast.makeText(mainActivity, "Setting wallpaper...", Toast.LENGTH_SHORT).show();
             					}});
             				
             				wallpaperManager.setBitmap(retriever.getFinalProcessedImage());
             				
             				handler.post(new Runnable(){
             					public void run(){
-            						Toast.makeText(getActivity(), "Wallpaper set", Toast.LENGTH_SHORT).show();
+            						Toast.makeText(mainActivity, "Wallpaper set", Toast.LENGTH_SHORT).show();
             					}});
                 			}
             			catch(Exception e){
             				e.printStackTrace();
             				handler.post(new Runnable(){
             					public void run(){
-            						Toast.makeText(getActivity(), "Error setting wallpaper", Toast.LENGTH_SHORT).show();
+            						Toast.makeText(mainActivity, "Error setting wallpaper", Toast.LENGTH_SHORT).show();
             					}
             				});
             			}
