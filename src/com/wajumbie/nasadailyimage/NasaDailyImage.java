@@ -7,6 +7,7 @@ package com.wajumbie.nasadailyimage;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import android.annotation.SuppressLint;
 import android.app.Fragment;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -33,6 +34,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+@SuppressLint("ValidFragment")
 public class NasaDailyImage extends Fragment{
     /** Called when the activity is first created. */
 	private String title="";
@@ -40,10 +42,11 @@ public class NasaDailyImage extends Fragment{
 	private String description="";
 	private String date="";
 	private ProgressDialog dog;
-	private Bundle savedInstanceState;
+	private static Bundle savedInstanceState;
 	private Handler handler=new Handler();
 	private static View ndiView;
 	private static Activity mainActivity;
+	
 	
 	
 	public NasaDailyImage(Activity mainActivity) {
@@ -51,13 +54,20 @@ public class NasaDailyImage extends Fragment{
 	}
 
 	public NasaDailyImage() {
-		// TODO Auto-generated constructor stub
+		
+	}
+
+	@Override
+	public void onSaveInstanceState(Bundle outState) {
+		// TODO Auto-generated method stub
+		super.onSaveInstanceState(outState);
+		
 	}
 
 	@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-       
+        setRetainInstance(true);
     //  String what= mainActivity.toString();
     } 
 	
@@ -72,6 +82,7 @@ public class NasaDailyImage extends Fragment{
 		super.onStart();
 		
 	}
+	
 	
     public void onRefresh(){
     	System.out.println("in onRefresh");

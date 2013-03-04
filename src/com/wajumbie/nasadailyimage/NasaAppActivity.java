@@ -49,11 +49,17 @@ public class NasaAppActivity extends Activity implements ActionBar.TabListener{
     
     @Override
     public void onStart(){
-    	super.onStart(); 	
+    	super.onStart(); 
+    	if(savedInstanceState==null){
     	ndi=new NasaDailyImage(this);
     	bnf=new BreakingNewsFragment(this);
+    	
        ft=getFragmentManager().beginTransaction();
        ft.add(R.id.focused_view_container,ndi).commit();
+       ft=getFragmentManager().beginTransaction();
+       ft.add(R.id.focused_view_container,bnf).commit();
+    	}
+      // ft.hide(bnf);
 	//	 ndi.onRefresh();
         //ndi.onRefresh();
     	/*if(savedInstanceState==null){
@@ -146,21 +152,23 @@ public void onTabSelected(Tab tab, FragmentTransaction f) {
 	switch(tab.getPosition()){
 	case 0:
 		ft=getFragmentManager().beginTransaction();
-		if(!ndi.isAdded()){	
+		
+		
+			ft.hide(bnf);
+			ft.show(ndi);
+			ft.commit();
 			
-			
-		ft.replace(R.id.focused_view_container, ndi).setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).commit();
-		//	ft.attach(ndi);
-			getFragmentManager().executePendingTransactions();
-			//	ndi.onRefresh();
-		}
+		getFragmentManager().executePendingTransactions();
+		
 			 
         break;
 	case 1:
-		ft=getFragmentManager().beginTransaction();
-	//	ft.detach(ndi);
-        ft.replace(R.id.focused_view_container, bnf).commit();
-        getFragmentManager().executePendingTransactions();
+			ft=getFragmentManager().beginTransaction();
+			ft.hide(ndi);
+			ft.show(bnf);
+			ft.commit();
+			
+		getFragmentManager().executePendingTransactions();
          break;
 	}
 	
