@@ -1,5 +1,8 @@
 package com.wajumbie.nasadailyimage;
 
+import java.util.ArrayList;
+
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
@@ -9,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 
+@SuppressLint("ValidFragment")
 public class BreakingNewsFragment extends ListFragment {
 	private Activity mainActivity;
 	
@@ -32,8 +36,11 @@ public class BreakingNewsFragment extends ListFragment {
 	public void onStart() {
 		// TODO Auto-generated method stub
 		super.onStart();
-		String arr[]={"abc","123999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999"};
-		setListAdapter(new ArrayAdapter(mainActivity,android.R.layout.simple_list_item_activated_1,arr));
+		RssNewsParser parser=new RssNewsParser();
+		parser.parse();
+		ArrayList<String> stories=new ArrayList<String>();
+		stories=parser.getStories();
+		setListAdapter(new ArrayAdapter(mainActivity,android.R.layout.simple_list_item_1,stories));
 	}
 
 }

@@ -51,13 +51,12 @@ public class NasaAppActivity extends Activity implements ActionBar.TabListener{
     public void onStart(){
     	super.onStart(); 
     	if(savedInstanceState==null){
-    	ndi=new NasaDailyImage(this);
-    	bnf=new BreakingNewsFragment(this);
-    	
-       ft=getFragmentManager().beginTransaction();
-       ft.add(R.id.focused_view_container,ndi).commit();
-       ft=getFragmentManager().beginTransaction();
-       ft.add(R.id.focused_view_container,bnf).commit();
+    		ndi=new NasaDailyImage(this);
+    		bnf=new BreakingNewsFragment(this);    	
+    		ft=getFragmentManager().beginTransaction();
+    		ft.add(R.id.focused_view_container,ndi).commit();
+    		ft=getFragmentManager().beginTransaction();
+    		ft.add(R.id.focused_view_container,bnf).commit();
     	}
       // ft.hide(bnf);
 	//	 ndi.onRefresh();
