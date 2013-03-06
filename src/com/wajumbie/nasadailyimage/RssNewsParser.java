@@ -55,15 +55,15 @@ public class RssNewsParser{
 				storyCount++;
 				xpp.getDepth();
 			}
-			if(tagName.equals("title")){
+			if(tagName.equals("title")&& !stories.isEmpty()){
 				xpp.getDepth();
 				stories.get(storyCount).setTitle(xpp.nextText());
 			}
-			if(tagName.equals("link")){
+			if(tagName.equals("link") && !stories.isEmpty()){
 				stories.get(storyCount).setURL(xpp.nextText());
 				xpp.getDepth();
 			}
-			if(tagName.equals("description")){
+			if(tagName.equals("description")&& !stories.isEmpty()){
 				stories.get(storyCount).setDescription(xpp.nextText());
 				xpp.getDepth();
 			}

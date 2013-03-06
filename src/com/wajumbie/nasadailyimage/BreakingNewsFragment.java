@@ -15,7 +15,8 @@ import android.widget.ArrayAdapter;
 @SuppressLint("ValidFragment")
 public class BreakingNewsFragment extends ListFragment {
 	private Activity mainActivity;
-	
+	private ArrayList<Story> stories=new ArrayList<Story>();
+	private ArrayList<String> storyTitles=new ArrayList<String>();
 	public BreakingNewsFragment(Activity mainActivity){
 		this.mainActivity=mainActivity;
 	}
@@ -38,9 +39,11 @@ public class BreakingNewsFragment extends ListFragment {
 		super.onStart();
 		RssNewsParser parser=new RssNewsParser();
 		parser.parse();
-		ArrayList<String> stories=new ArrayList<String>();
 		stories=parser.getStories();
-		setListAdapter(new ArrayAdapter(mainActivity,android.R.layout.simple_list_item_1,stories));
+		for(Story story:stories){
+			storyTitles.add(story.getTitle());
+		}
+		setListAdapter(new ArrayAdapter(mainActivity,android.R.layout.simple_list_item_1,storyTitles));
 	}
 
 }
