@@ -164,6 +164,7 @@ import android.os.AsyncTask;
 					ImageView imageView=(ImageView) v.findViewById(R.id.imageDisplay);
 			    	imageView.setImageBitmap(image); 
 			    	dialog.dismiss(); 
+			    	this.cancel(true);
 				}
 				
 			    protected void onPreExecute(){

@@ -4,6 +4,7 @@ public class Story {
 	private String title;
 	private String URL;
 	private String description;
+	
 	public String getTitle() {
 		return title;
 	}

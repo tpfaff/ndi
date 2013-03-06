@@ -24,6 +24,7 @@ public class BreakingNewsFragment extends ListFragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
+		
 		return super.onCreateView(inflater, container, savedInstanceState);
 	}
 
@@ -37,13 +38,17 @@ public class BreakingNewsFragment extends ListFragment {
 	public void onStart() {
 		// TODO Auto-generated method stub
 		super.onStart();
-		RssNewsParser parser=new RssNewsParser();
-		parser.parse();
+		
+	}
+	public void updateList(){
+		
+		RssNewsParser parser=new RssNewsParser(mainActivity);
+		parser.execute("");
 		stories=parser.getStories();
 		for(Story story:stories){
 			storyTitles.add(story.getTitle());
 		}
-		setListAdapter(new ArrayAdapter(mainActivity,android.R.layout.simple_list_item_1,storyTitles));
+		setListAdapter(new ArrayAdapter<String>(mainActivity,android.R.layout.simple_list_item_1,storyTitles));
 	}
 
 }

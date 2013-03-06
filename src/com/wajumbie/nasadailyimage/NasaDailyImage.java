@@ -90,7 +90,9 @@ public class NasaDailyImage extends Fragment{
 	    	
 			
 		String result=mainActivity.toString();
-    	new RssParseSync(ndiView,mainActivity).execute(title,description,date,link);
+		RssParseSync rps=new RssParseSync(ndiView,mainActivity);
+    	rps.execute(title,description,date,link);
+    	
     }
 
     
