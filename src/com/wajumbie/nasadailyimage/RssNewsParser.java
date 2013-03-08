@@ -39,7 +39,7 @@ public class RssNewsParser extends AsyncTask<String,String,ArrayList<Story>>{
 		// TODO Auto-generated method stub
 		super.onPostExecute(result);
 		dialog.hide();
-		this.cancel(true);
+		//this.cancel(true);
 	}
 	@Override
 	protected void onPreExecute() {

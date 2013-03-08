@@ -157,7 +157,7 @@ public void onTabSelected(Tab tab, FragmentTransaction f) {
 			ft.show(ndi);
 			ft.commit();
 			
-		//getFragmentManager().executePendingTransactions();
+		getFragmentManager().executePendingTransactions();
 		
 			 
         break;
@@ -165,10 +165,10 @@ public void onTabSelected(Tab tab, FragmentTransaction f) {
 			ft=getFragmentManager().beginTransaction();
 			ft.hide(ndi);
 			ft.show(bnf);
-			bnf.updateList();
+			//bnf.updateList();
 			ft.commit();
 			
-		//getFragmentManager().executePendingTransactions();
+		getFragmentManager().executePendingTransactions();
          break;
 	}
 	

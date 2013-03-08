@@ -29,9 +29,23 @@ public class BreakingNewsFragment extends ListFragment {
 	}
 
 	@Override
+	public void onHiddenChanged(boolean hidden) {
+		// TODO Auto-generated method stub
+		super.onHiddenChanged(hidden);
+		setListAdapter(new ArrayAdapter<String>(mainActivity,android.R.layout.simple_list_item_1,storyTitles));
+	}
+	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
+	
+			
+			RssNewsParser parser=new RssNewsParser(mainActivity);
+			parser.execute("");
+			stories=parser.getStories();
+			for(Story story:stories){
+				storyTitles.add(story.getTitle());
+			}
 	}
 
 	@Override
@@ -39,16 +53,9 @@ public class BreakingNewsFragment extends ListFragment {
 		// TODO Auto-generated method stub
 		super.onStart();
 		
-	}
-	public void updateList(){
+	
+	
 		
-		RssNewsParser parser=new RssNewsParser(mainActivity);
-		parser.execute("");
-		stories=parser.getStories();
-		for(Story story:stories){
-			storyTitles.add(story.getTitle());
-		}
-		setListAdapter(new ArrayAdapter<String>(mainActivity,android.R.layout.simple_list_item_1,storyTitles));
 	}
 
 }

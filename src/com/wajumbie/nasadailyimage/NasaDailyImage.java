@@ -80,7 +80,7 @@ public class NasaDailyImage extends Fragment{
 	@Override
 	public void onStart(){
 		super.onStart();
-		
+		//new RssParseSync(ndiView,mainActivity).execute(title,description,date,link);
 	}
 	
 	
@@ -90,8 +90,7 @@ public class NasaDailyImage extends Fragment{
 	    	
 			
 		String result=mainActivity.toString();
-		RssParseSync rps=new RssParseSync(ndiView,mainActivity);
-    	rps.execute(title,description,date,link);
+		new RssParseSync(ndiView,mainActivity).execute(title,description,date,link);
     	
     }
 
