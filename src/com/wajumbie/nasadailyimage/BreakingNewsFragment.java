@@ -14,9 +14,13 @@ import android.widget.ArrayAdapter;
 
 @SuppressLint("ValidFragment")
 public class BreakingNewsFragment extends ListFragment {
-	private Activity mainActivity;
-	private ArrayList<Story> stories=new ArrayList<Story>();
-	private ArrayList<String> storyTitles=new ArrayList<String>();
+	private static Activity mainActivity;
+	private static ArrayList<Story> stories=new ArrayList<Story>();
+	private static ArrayList<String> storyTitles=new ArrayList<String>();
+	
+	public BreakingNewsFragment(){
+		
+	}
 	public BreakingNewsFragment(Activity mainActivity){
 		this.mainActivity=mainActivity;
 	}
@@ -32,7 +36,7 @@ public class BreakingNewsFragment extends ListFragment {
 	public void onHiddenChanged(boolean hidden) {
 		// TODO Auto-generated method stub
 		super.onHiddenChanged(hidden);
-		setListAdapter(new ArrayAdapter<String>(mainActivity,android.R.layout.simple_list_item_1,storyTitles));
+		
 	}
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -40,21 +44,28 @@ public class BreakingNewsFragment extends ListFragment {
 		super.onCreate(savedInstanceState);
 	
 			
-			RssNewsParser parser=new RssNewsParser(mainActivity);
-			parser.execute("");
-			stories=parser.getStories();
-			for(Story story:stories){
-				storyTitles.add(story.getTitle());
-			}
+			
 	}
+	public void fetchStories(){
+		RssNewsParser parser=new RssNewsParser(mainActivity,this);
+		parser.execute();
+		
+		//stories=parser.getStories();
+		
 
+	}
+public void updateList(){
+	//String result;
+	//result = storyTitles.toString();
+	//setListAdapter(new ArrayAdapter<String>(mainActivity,android.R.layout.simple_list_item_1,storyTitles));
+}
 	@Override
 	public void onStart() {
 		// TODO Auto-generated method stub
 		super.onStart();
 		
 	
-	
+		
 		
 	}
 

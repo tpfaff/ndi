@@ -15,16 +15,21 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
+import android.widget.ArrayAdapter;
 
-public class RssNewsParser extends AsyncTask<String,String,ArrayList<Story>>{
+public class RssNewsParser extends AsyncTask<ArrayList<Story>,String,ArrayList<Story>>{
 	private ProgressDialog dialog;
+	private BreakingNewsFragment bnf;
 	URL newsURL;
 	ArrayList<Story> stories=new ArrayList<Story>();
 	int eventType;
 	int storyCount= -1;
 	private Activity mainActivity;
-	RssNewsParser(Activity mainActivity){
+	private ArrayList<String> storyTitles=new ArrayList<String>();
+	
+	RssNewsParser(Activity mainActivity,BreakingNewsFragment bnf){
 		this.mainActivity=mainActivity;
+		this.bnf=bnf;
 	}
 	public ArrayList<Story> getStories(){
 		return stories;
@@ -38,7 +43,12 @@ public class RssNewsParser extends AsyncTask<String,String,ArrayList<Story>>{
 	protected void onPostExecute(ArrayList<Story> result) {
 		// TODO Auto-generated method stub
 		super.onPostExecute(result);
-		dialog.hide();
+		for(Story story:stories){
+			storyTitles.add(story.getTitle());
+		}
+		bnf.setListAdapter(new ArrayAdapter<String>(mainActivity,
+                android.R.layout.simple_list_item_1,storyTitles));
+		//dialog.hide();
 		//this.cancel(true);
 	}
 	@Override
@@ -46,10 +56,10 @@ public class RssNewsParser extends AsyncTask<String,String,ArrayList<Story>>{
 		// TODO Auto-generated method stub
 		super.onPreExecute();
 			
-		dialog=ProgressDialog.show(mainActivity, "Loading", "loading news");
+		//dialog=ProgressDialog.show(mainActivity, "Loading", "loading news");
 	}
 	@Override
-	protected ArrayList<Story> doInBackground(String... arg0) {
+	protected ArrayList<Story> doInBackground(ArrayList<Story>... params) {
 		try{
 			
 		newsURL = new URL("http://www.nasa.gov/rss/breaking_news.rss");//set URl						 
@@ -104,12 +114,8 @@ public class RssNewsParser extends AsyncTask<String,String,ArrayList<Story>>{
     	e1.printStackTrace();
     }catch(IOException e2){
     	e2.printStackTrace();
-    }	     
+    }	  
 		return stories;
 	}
-	
-
-	
-
 	
 }

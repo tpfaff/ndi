@@ -173,7 +173,6 @@ import android.os.AsyncTask;
 					}
 					
 					nullAllViews();
-					
 					dialog=ProgressDialog.show(mainActivity, "Loading", "Loading the image of the day");
 				}
 				

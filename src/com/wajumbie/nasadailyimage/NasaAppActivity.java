@@ -55,6 +55,9 @@ public class NasaAppActivity extends Activity implements ActionBar.TabListener{
     		bnf=new BreakingNewsFragment(this);    	
     		ft=getFragmentManager().beginTransaction();
     		ft.add(R.id.focused_view_container,ndi).commit();
+    		
+    		getFragmentManager().executePendingTransactions();
+    		ndi.onRefresh();
     		ft=getFragmentManager().beginTransaction();
     		ft.add(R.id.focused_view_container,bnf).commit();
     	}
@@ -155,9 +158,10 @@ public void onTabSelected(Tab tab, FragmentTransaction f) {
 		
 			ft.hide(bnf);
 			ft.show(ndi);
+		
 			ft.commit();
 			
-		getFragmentManager().executePendingTransactions();
+	       getFragmentManager().executePendingTransactions();
 		
 			 
         break;
@@ -165,10 +169,12 @@ public void onTabSelected(Tab tab, FragmentTransaction f) {
 			ft=getFragmentManager().beginTransaction();
 			ft.hide(ndi);
 			ft.show(bnf);
-			//bnf.updateList();
-			ft.commit();
 			
-		getFragmentManager().executePendingTransactions();
+			ft.commit();
+			bnf.fetchStories();
+			//bnf.updateList();
+	      getFragmentManager().executePendingTransactions();
+	      
          break;
 	}
 	
