@@ -150,7 +150,7 @@ public void onTabSelected(Tab tab, FragmentTransaction f) {
 		
 		
 			ft.hide(bnf);
-			ft.show(ndi);
+			ft.show(ndi).setTransition(ft.TRANSIT_FRAGMENT_FADE);
 		
 			ft.commit();
 			
