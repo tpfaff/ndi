@@ -21,7 +21,7 @@ public class RssNewsParser extends AsyncTask<ArrayList<Story>,String,ArrayList<S
 	private ProgressDialog dialog;
 	private BreakingNewsFragment bnf;
 	URL newsURL;
-	ArrayList<Story> stories=new ArrayList<Story>();
+	private ArrayList<Story> stories=new ArrayList<Story>();
 	int eventType;
 	int storyCount= -1;
 	private Activity mainActivity;
@@ -30,6 +30,9 @@ public class RssNewsParser extends AsyncTask<ArrayList<Story>,String,ArrayList<S
 	RssNewsParser(Activity mainActivity,BreakingNewsFragment bnf){
 		this.mainActivity=mainActivity;
 		this.bnf=bnf;
+	}
+	public RssNewsParser() {
+		// TODO Auto-generated constructor stub
 	}
 	public ArrayList<Story> getStories(){
 		return stories;
@@ -46,6 +49,7 @@ public class RssNewsParser extends AsyncTask<ArrayList<Story>,String,ArrayList<S
 		for(Story story:stories){
 			storyTitles.add(story.getTitle());
 		}
+		
 		bnf.setListAdapter(new ArrayAdapter<String>(mainActivity,
                 android.R.layout.simple_list_item_1,storyTitles));
 		//dialog.hide();

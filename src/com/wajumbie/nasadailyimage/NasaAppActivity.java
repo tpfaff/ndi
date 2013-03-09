@@ -61,13 +61,6 @@ public class NasaAppActivity extends Activity implements ActionBar.TabListener{
     		ft=getFragmentManager().beginTransaction();
     		ft.add(R.id.focused_view_container,bnf).commit();
     	}
-      // ft.hide(bnf);
-	//	 ndi.onRefresh();
-        //ndi.onRefresh();
-    	/*if(savedInstanceState==null){
-    		RssParseSync init=new RssParseSync(this);
-    		onRefreshClicked(null);
-    	}*/
     }
 	
 	@Override
