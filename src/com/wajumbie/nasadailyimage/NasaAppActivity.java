@@ -45,7 +45,7 @@ public class NasaAppActivity extends Activity implements ActionBar.TabListener{
         createAlbum(); 
         setContentView(R.layout.main_activity);      
         this.savedInstanceState=savedInstanceState;
-    }
+    }//
     
     @Override
     public void onStart(){
@@ -58,8 +58,10 @@ public class NasaAppActivity extends Activity implements ActionBar.TabListener{
     		
     		getFragmentManager().executePendingTransactions();
     		ndi.onRefresh();
+    		
     		ft=getFragmentManager().beginTransaction();
     		ft.add(R.id.focused_view_container,bnf).commit();
+    		
     	}
     }
 	
@@ -166,8 +168,10 @@ public void onTabSelected(Tab tab, FragmentTransaction f) {
 			ft.commit();
 			bnf.fetchStories();
 			//bnf.updateList();
+			
 	      getFragmentManager().executePendingTransactions();
 	      
+	     
          break;
 	}
 	

@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+
 @SuppressLint("ValidFragment")
 public class BreakingNewsFragment extends ListFragment {
 	private static Activity mainActivity;
@@ -84,7 +85,7 @@ public class BreakingNewsFragment extends ListFragment {
 public void updateList(){
 	//String result;
 	//result = storyTitles.toString();
-	//setListAdapter(new ArrayAdapter<String>(mainActivity,android.R.layout.simple_list_item_1,storyTitles));
+	setListAdapter(new ArrayAdapter<String>(mainActivity,android.R.layout.simple_list_item_1,storyTitles));
 }
 	@Override
 	public void onStart() {
