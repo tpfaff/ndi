@@ -15,10 +15,12 @@ import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.app.Activity;
 import android.app.FragmentTransaction;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.Menu;
@@ -35,8 +37,10 @@ public class NasaAppActivity extends Activity implements ActionBar.TabListener{
     private Bundle savedInstanceState;
     private static View mainView;
     private FragmentTransaction ft;
+    private Handler handler=new Handler();
     BreakingNewsFragment bnf;
     NasaDailyImage ndi;
+    
     
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -62,6 +66,7 @@ public class NasaAppActivity extends Activity implements ActionBar.TabListener{
     		ft=getFragmentManager().beginTransaction();
     		ft.add(R.id.focused_view_container,bnf).commit();
     		
+    		getFragmentManager().executePendingTransactions();
     	}
     }
 	
@@ -104,7 +109,12 @@ public class NasaAppActivity extends Activity implements ActionBar.TabListener{
 			break;
 			
 		case R.id.content_refresh:
+			if(bnf.isHidden()){
 			ndi.onRefresh();
+			}
+			if(ndi.isHidden()){
+			bnf.onRefresh();	
+			}
 			break;
 			
 		case R.id.wallpaper_set:
@@ -149,29 +159,33 @@ public void onTabSelected(Tab tab, FragmentTransaction f) {
 	switch(tab.getPosition()){
 	case 0:
 		ft=getFragmentManager().beginTransaction();
-		
-		
 			ft.hide(bnf);
 			ft.show(ndi);
-		
 			ft.commit();
-			
-	       getFragmentManager().executePendingTransactions();
-		
-			 
+	       getFragmentManager().executePendingTransactions(); 
         break;
 	case 1:
+		
 			ft=getFragmentManager().beginTransaction();
-			ft.hide(ndi);
 			ft.show(bnf);
+			ft.hide(ndi);
+		
 			
 			ft.commit();
-			bnf.fetchStories();
-			//bnf.updateList();
 			
-	      getFragmentManager().executePendingTransactions();
-	      
-	     
+			
+			
+	   
+	    Thread th=new Thread(){
+    		public void run(){
+			handler.post(new Runnable(){
+				public void run(){
+					 bnf.fetchStories();
+					
+				}});}};
+	   
+	    th.start();
+	    getFragmentManager().executePendingTransactions();
          break;
 	}
 	

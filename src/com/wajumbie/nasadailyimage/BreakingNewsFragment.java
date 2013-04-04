@@ -70,6 +70,7 @@ public class BreakingNewsFragment extends ListFragment {
 			
 				try {
 					stories=parser.get();
+					
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -94,6 +95,10 @@ public void updateList(){
 		
 	
 		
+		
+	}
+	public void onRefresh() {
+		fetchStories();
 		
 	}
 

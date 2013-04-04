@@ -20,10 +20,10 @@ import android.widget.ArrayAdapter;
 public class RssNewsParser extends AsyncTask<ArrayList<Story>,String,ArrayList<Story>>{
 	private ProgressDialog dialog;
 	private BreakingNewsFragment bnf;
-	URL newsURL;
+	private URL newsURL;
 	private ArrayList<Story> stories=new ArrayList<Story>();
-	int eventType;
-	int storyCount= -1;
+	private int eventType;
+	private int storyCount= -1;
 	private Activity mainActivity;
 	private ArrayList<String> storyTitles=new ArrayList<String>();
 	
@@ -52,15 +52,12 @@ public class RssNewsParser extends AsyncTask<ArrayList<Story>,String,ArrayList<S
 		
 		bnf.setListAdapter(new ArrayAdapter<String>(mainActivity,
                 android.R.layout.simple_list_item_1,storyTitles));
-		//dialog.hide();
-		//this.cancel(true);
+		dialog.hide();
 	}
 	@Override
 	protected void onPreExecute() {
-		// TODO Auto-generated method stub
-		super.onPreExecute();
-			
-		//dialog=ProgressDialog.show(mainActivity, "Loading", "loading news");
+		super.onPreExecute();	
+		dialog=ProgressDialog.show(mainActivity, "Loading", "loading news");
 	}
 	@Override
 	protected ArrayList<Story> doInBackground(ArrayList<Story>... params) {
