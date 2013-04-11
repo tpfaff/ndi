@@ -67,21 +67,7 @@ public class BreakingNewsFragment extends ListFragment {
 		RssNewsParser parser=new RssNewsParser(mainActivity,this);
 		if(stories.isEmpty()){
 		parser.execute();
-			
-				try {
-					stories=parser.get();
-					
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (ExecutionException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
 		}
-			//stories=parser.getStories();
-	
-		
 	}
 public void updateList(){
 	//String result;

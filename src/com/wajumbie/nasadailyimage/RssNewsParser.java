@@ -52,12 +52,12 @@ public class RssNewsParser extends AsyncTask<ArrayList<Story>,String,ArrayList<S
 		
 		bnf.setListAdapter(new ArrayAdapter<String>(mainActivity,
                 android.R.layout.simple_list_item_1,storyTitles));
-		dialog.hide();
+		//dialog.hide();
 	}
 	@Override
 	protected void onPreExecute() {
 		super.onPreExecute();	
-		dialog=ProgressDialog.show(mainActivity, "Loading", "loading news");
+		//dialog=ProgressDialog.show(mainActivity, "Loading", "loading news");
 	}
 	@Override
 	protected ArrayList<Story> doInBackground(ArrayList<Story>... params) {
