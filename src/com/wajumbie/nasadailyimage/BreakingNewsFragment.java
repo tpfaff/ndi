@@ -22,12 +22,14 @@ public class BreakingNewsFragment extends ListFragment {
 	private static Activity mainActivity;
 	private static ArrayList<Story> stories=new ArrayList<Story>();
 	private static ArrayList<String> storyTitles=new ArrayList<String>();
+	RssNewsParser parser;
 	
 	public BreakingNewsFragment(){
 		
 	}
 	public BreakingNewsFragment(Activity mainActivity){
 		this.mainActivity=mainActivity;
+		parser=new RssNewsParser(mainActivity,this);
 	}
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -56,7 +58,7 @@ public class BreakingNewsFragment extends ListFragment {
 	public void onListItemClick(ListView l, View v, int position, long id) {
 		// TODO Auto-generated method stub
 		super.onListItemClick(l, v, position, id);
-
+		getStories();
 		String url = stories.get(position).getURL();
 		Intent i = new Intent(Intent.ACTION_VIEW);
 		i.setData(Uri.parse(url));
@@ -64,10 +66,23 @@ public class BreakingNewsFragment extends ListFragment {
 	}
 	public void fetchStories(){
 		
-		RssNewsParser parser=new RssNewsParser(mainActivity,this);
+		parser=new RssNewsParser(mainActivity,this);
 		if(stories.isEmpty()){
 		parser.execute();
 		}
+	}
+	public ArrayList<Story> getStories(){
+		try {
+			stories=parser.get();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ExecutionException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}	
+		return null;
+	
 	}
 public void updateList(){
 	//String result;

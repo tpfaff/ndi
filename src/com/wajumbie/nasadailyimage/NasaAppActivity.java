@@ -168,23 +168,9 @@ public void onTabSelected(Tab tab, FragmentTransaction f) {
 		
 			ft=getFragmentManager().beginTransaction();
 			ft.show(bnf);
-			ft.hide(ndi);
-		
-			
-			ft.commit();
-			
-			
-			
-	   
-	    Thread th=new Thread(){
-    		public void run(){
-			handler.post(new Runnable(){
-				public void run(){
-					 bnf.fetchStories();
-					
-				}});}};
-	   
-	    th.start();
+			ft.hide(ndi);		
+			ft.commit();     
+	    	 bnf.fetchStories();
 	    getFragmentManager().executePendingTransactions();
          break;
 	}
