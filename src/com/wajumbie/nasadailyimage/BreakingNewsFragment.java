@@ -22,7 +22,7 @@ public class BreakingNewsFragment extends ListFragment {
 	private static Activity mainActivity;
 	private static ArrayList<Story> stories=new ArrayList<Story>();
 	private static ArrayList<String> storyTitles=new ArrayList<String>();
-	RssNewsParser parser;
+	private static RssNewsParser parser;
 	
 	public BreakingNewsFragment(){
 		
@@ -85,8 +85,6 @@ public class BreakingNewsFragment extends ListFragment {
 	
 	}
 public void updateList(){
-	//String result;
-	//result = storyTitles.toString();
 	setListAdapter(new ArrayAdapter<String>(mainActivity,android.R.layout.simple_list_item_1,storyTitles));
 }
 	@Override
