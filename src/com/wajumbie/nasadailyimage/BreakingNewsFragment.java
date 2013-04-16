@@ -43,7 +43,7 @@ public class BreakingNewsFragment extends ListFragment {
 	public void onHiddenChanged(boolean hidden) {
 		// TODO Auto-generated method stub
 		super.onHiddenChanged(hidden);
-		
+
 	}
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -58,7 +58,9 @@ public class BreakingNewsFragment extends ListFragment {
 	public void onListItemClick(ListView l, View v, int position, long id) {
 		// TODO Auto-generated method stub
 		super.onListItemClick(l, v, position, id);
+		if(stories.isEmpty()){
 		getStories();
+		}
 		String url = stories.get(position).getURL();
 		Intent i = new Intent(Intent.ACTION_VIEW);
 		i.setData(Uri.parse(url));
@@ -71,7 +73,7 @@ public class BreakingNewsFragment extends ListFragment {
 		parser.execute();
 		}
 	}
-	public ArrayList<Story> getStories(){
+	public void getStories(){
 		try {
 			stories=parser.get();
 		} catch (InterruptedException e) {
@@ -81,10 +83,13 @@ public class BreakingNewsFragment extends ListFragment {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}	
-		return null;
 	
 	}
 public void updateList(){
+	storyTitles.removeAll(storyTitles);
+	for(Story story:stories){
+		storyTitles.add(story.getTitle());
+	}
 	setListAdapter(new ArrayAdapter<String>(mainActivity,android.R.layout.simple_list_item_1,storyTitles));
 }
 	@Override
@@ -92,12 +97,12 @@ public void updateList(){
 		// TODO Auto-generated method stub
 		super.onStart();
 		
-	
-		
-		
 	}
+	
 	public void onRefresh() {
-		fetchStories();
+	//	getStories();
+		
+	//updateList();
 		
 	}
 
