@@ -3,10 +3,13 @@
  * 2/19/2013 
  * Target: 4.0+
  * -------------------*/
-package com.wajumbie.nasadailyimage;
+package com.wajumbie.nasadailyimageandnews;
 
 import java.io.File;
 import java.io.FileOutputStream;
+
+import com.wajumbie.nasadailyimageandnews.R;
+
 import android.annotation.SuppressLint;
 import android.app.Fragment;
 import android.app.Activity;
@@ -34,7 +37,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
-@SuppressLint("ValidFragment")
 public class NasaDailyImage extends Fragment{
     /** Called when the activity is first created. */
 	private String title="";
@@ -46,12 +48,6 @@ public class NasaDailyImage extends Fragment{
 	private Handler handler=new Handler();
 	private static View ndiView;
 	private static Activity mainActivity;
-	
-	
-	
-	public NasaDailyImage(Activity mainActivity) {
-		this.mainActivity = mainActivity;
-	}
 
 	public NasaDailyImage() {
 		
@@ -81,16 +77,13 @@ public class NasaDailyImage extends Fragment{
 	public void onStart(){
 		super.onStart();
 		//new RssParseSync(ndiView,mainActivity).execute(title,description,date,link);
+		this.mainActivity=getActivity();
 	}
 	
 	
     public void onRefresh(){
     	System.out.println("in onRefresh");
-    		
-	    	
-			
-		String result=mainActivity.toString();
-		new RssParseSync(ndiView,mainActivity).execute(title,description,date,link);
+		new RssParseSync(ndiView,getActivity()).execute(title,description,date,link);
     	
     }
 

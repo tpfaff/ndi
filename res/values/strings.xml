@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">NASA Daily Image</string>
+    <string name="app_name">NASA News and Images</string>
     <string name="refresh">Refresh</string>
     <string name="contentDescription">NASA image of the day</string>
     <string name="hello_world">Hello world!</string>

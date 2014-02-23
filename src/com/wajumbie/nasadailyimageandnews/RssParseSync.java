@@ -3,7 +3,7 @@
  * 2/19/2013 
  * Target: 4.0+
  * -------------------*/
-package com.wajumbie.nasadailyimage;
+package com.wajumbie.nasadailyimageandnews;
 
 
 import java.io.*;
@@ -14,6 +14,9 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import org.xmlpull.v1.*;
+
+import com.wajumbie.nasadailyimageandnews.R;
+
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.app.WallpaperManager;

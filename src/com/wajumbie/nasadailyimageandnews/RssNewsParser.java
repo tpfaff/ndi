@@ -1,4 +1,4 @@
-package com.wajumbie.nasadailyimage;
+package com.wajumbie.nasadailyimageandnews;
 
 import java.io.BufferedReader;
 import java.io.IOException;

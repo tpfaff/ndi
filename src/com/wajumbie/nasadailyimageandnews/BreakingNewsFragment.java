@@ -1,4 +1,4 @@
-package com.wajumbie.nasadailyimage;
+package com.wajumbie.nasadailyimageandnews;
 
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
@@ -17,7 +17,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 
-@SuppressLint("ValidFragment")
+
 public class BreakingNewsFragment extends ListFragment {
 	private static Activity mainActivity;
 	private static ArrayList<Story> stories=new ArrayList<Story>();
@@ -27,10 +27,7 @@ public class BreakingNewsFragment extends ListFragment {
 	public BreakingNewsFragment(){
 		
 	}
-	public BreakingNewsFragment(Activity mainActivity){
-		this.mainActivity=mainActivity;
-		parser=new RssNewsParser(mainActivity,this);
-	}
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -59,8 +56,9 @@ public class BreakingNewsFragment extends ListFragment {
 		// TODO Auto-generated method stub
 		super.onListItemClick(l, v, position, id);
 		if(stories.isEmpty()){
-		getStories();
+			getStories();
 		}
+		
 		String url = stories.get(position).getURL();
 		Intent i = new Intent(Intent.ACTION_VIEW);
 		i.setData(Uri.parse(url));
@@ -68,7 +66,7 @@ public class BreakingNewsFragment extends ListFragment {
 	}
 	public void fetchStories(){
 		
-		parser=new RssNewsParser(mainActivity,this);
+		parser=new RssNewsParser(getActivity(),this);
 		if(stories.isEmpty()){
 		parser.execute();
 		}
@@ -90,13 +88,17 @@ public void updateList(){
 	for(Story story:stories){
 		storyTitles.add(story.getTitle());
 	}
-	setListAdapter(new ArrayAdapter<String>(mainActivity,android.R.layout.simple_list_item_1,storyTitles));
+	setListAdapter(new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_1,storyTitles));
 }
 	@Override
 	public void onStart() {
 		// TODO Auto-generated method stub
 		super.onStart();
 		
+		if(getListAdapter() == null)
+		{
+			fetchStories();
+		}
 	}
 	
 	public void onRefresh() {

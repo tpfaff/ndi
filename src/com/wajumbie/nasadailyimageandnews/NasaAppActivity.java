@@ -6,9 +6,12 @@
  * -------------------*/
  
 
-package com.wajumbie.nasadailyimage;
+package com.wajumbie.nasadailyimageandnews;
 
 import java.io.File;
+
+import com.wajumbie.nasadailyimageandnews.R;
+
 import android.annotation.TargetApi;
 import android.app.FragmentManager;
 import android.app.ActionBar;
@@ -31,7 +34,7 @@ import android.widget.Toast;
 
 
 
-@TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
+
 public class NasaAppActivity extends Activity implements ActionBar.TabListener{
 	
     private Bundle savedInstanceState;
@@ -55,8 +58,9 @@ public class NasaAppActivity extends Activity implements ActionBar.TabListener{
     public void onStart(){
     	super.onStart(); 
     	if(savedInstanceState==null){
-    		ndi=new NasaDailyImage(this);
-    		bnf=new BreakingNewsFragment(this);    	
+    		Bundle bundleWithActivity=new Bundle();
+    		ndi=new NasaDailyImage();
+    		bnf=new BreakingNewsFragment();    	
     		ft=getFragmentManager().beginTransaction();
     		ft.add(R.id.focused_view_container,ndi).commit();
     		
@@ -111,6 +115,8 @@ public class NasaAppActivity extends Activity implements ActionBar.TabListener{
 		case R.id.content_refresh:
 			if(bnf.isHidden()){
 			ndi.onRefresh();
+			}else{
+				bnf.fetchStories();
 			}
 			if(ndi.isHidden()){
 			bnf.onRefresh();	
@@ -147,12 +153,6 @@ public class NasaAppActivity extends Activity implements ActionBar.TabListener{
 		return false;
 	}
 
- 
-
-public void onTabReselected(Tab tab, FragmentTransaction f) {
-	// TODO Auto-generated method stub
-	
-}
 
 public void onTabSelected(Tab tab, FragmentTransaction f) {
 
@@ -178,6 +178,11 @@ public void onTabSelected(Tab tab, FragmentTransaction f) {
 }
 
 public void onTabUnselected(Tab tab, FragmentTransaction ft) {
+	// TODO Auto-generated method stub
+	
+}
+
+public void onTabReselected(Tab arg0, FragmentTransaction arg1) {
 	// TODO Auto-generated method stub
 	
 }

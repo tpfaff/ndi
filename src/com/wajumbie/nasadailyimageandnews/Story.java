@@ -1,4 +1,4 @@
-package com.wajumbie.nasadailyimage;
+package com.wajumbie.nasadailyimageandnews;
 
 public class Story {
 	private String title;
