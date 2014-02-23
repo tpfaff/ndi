@@ -8,15 +8,11 @@ package com.wajumbie.nasadailyimageandnews;
 import java.io.File;
 import java.io.FileOutputStream;
 
-import com.wajumbie.nasadailyimageandnews.R;
-
-import android.annotation.SuppressLint;
-import android.app.Fragment;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Fragment;
 import android.app.ProgressDialog;
 import android.app.WallpaperManager;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -24,16 +20,9 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
-import android.view.ContextMenu;
-import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView.AdapterContextMenuInfo;
-import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 

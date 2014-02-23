@@ -10,27 +10,18 @@ package com.wajumbie.nasadailyimageandnews;
 
 import java.io.File;
 
-import com.wajumbie.nasadailyimageandnews.R;
-
-import android.annotation.TargetApi;
-import android.app.FragmentManager;
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.app.Activity;
 import android.app.FragmentTransaction;
-import android.app.ProgressDialog;
 import android.content.Context;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.Handler;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
 
 
@@ -40,7 +31,6 @@ public class NasaAppActivity extends Activity implements ActionBar.TabListener{
     private Bundle savedInstanceState;
     private static View mainView;
     private FragmentTransaction ft;
-    private Handler handler=new Handler();
     BreakingNewsFragment bnf;
     NasaDailyImage ndi;
     
@@ -58,7 +48,6 @@ public class NasaAppActivity extends Activity implements ActionBar.TabListener{
     public void onStart(){
     	super.onStart(); 
     	if(savedInstanceState==null){
-    		Bundle bundleWithActivity=new Bundle();
     		ndi=new NasaDailyImage();
     		bnf=new BreakingNewsFragment();    	
     		ft=getFragmentManager().beginTransaction();
@@ -114,12 +103,11 @@ public class NasaAppActivity extends Activity implements ActionBar.TabListener{
 			
 		case R.id.content_refresh:
 			if(bnf.isHidden()){
-			ndi.onRefresh();
-			}else{
-				bnf.fetchStories();
+				ndi.onRefresh();
 			}
+			
 			if(ndi.isHidden()){
-			bnf.onRefresh();	
+				bnf.onRefresh();	
 			}
 			break;
 			

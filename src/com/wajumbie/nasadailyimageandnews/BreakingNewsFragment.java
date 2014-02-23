@@ -3,13 +3,10 @@ package com.wajumbie.nasadailyimageandnews;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
-import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.app.Fragment;
-import android.net.Uri;
-import android.os.Bundle;
 import android.app.ListFragment;
 import android.content.Intent;
+import android.net.Uri;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +16,6 @@ import android.widget.ListView;
 
 
 public class BreakingNewsFragment extends ListFragment {
-	private static Activity mainActivity;
 	private static ArrayList<Story> stories=new ArrayList<Story>();
 	private static ArrayList<String> storyTitles=new ArrayList<String>();
 	private static RssNewsParser parser;
@@ -102,9 +98,7 @@ public void updateList(){
 	}
 	
 	public void onRefresh() {
-	//	getStories();
-		
-	//updateList();
+		fetchStories();
 		
 	}
 
