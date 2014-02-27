@@ -17,6 +17,7 @@ import android.app.FragmentTransaction;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.util.AttributeSet;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -31,6 +32,7 @@ public class NasaAppActivity extends Activity implements ActionBar.TabListener{
     private Bundle savedInstanceState;
     private static View mainView;
     private FragmentTransaction ft;
+    private Handler handler;
     BreakingNewsFragment bnf;
     NasaDailyImage ndi;
     
@@ -38,7 +40,7 @@ public class NasaAppActivity extends Activity implements ActionBar.TabListener{
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-       
+        
         createAlbum(); 
         setContentView(R.layout.main_activity);      
         this.savedInstanceState=savedInstanceState;
@@ -47,19 +49,33 @@ public class NasaAppActivity extends Activity implements ActionBar.TabListener{
     @Override
     public void onStart(){
     	super.onStart(); 
+        handler=new Handler();
     	if(savedInstanceState==null){
-    		ndi=new NasaDailyImage();
-    		bnf=new BreakingNewsFragment();    	
-    		ft=getFragmentManager().beginTransaction();
-    		ft.add(R.id.focused_view_container,ndi).commit();
+		if(isNetworkAvailable()){
+    		  ndi=new NasaDailyImage();
+    		  bnf=new BreakingNewsFragment();    	
+    		  ft=getFragmentManager().beginTransaction();
+    		  ft.add(R.id.focused_view_container,ndi).commit();
     		
-    		getFragmentManager().executePendingTransactions();
-    		ndi.onRefresh();
+    		  getFragmentManager().executePendingTransactions();
+    		  ndi.onRefresh();
     		
-    		ft=getFragmentManager().beginTransaction();
-    		ft.add(R.id.focused_view_container,bnf).commit();
+    		  ft=getFragmentManager().beginTransaction();
+    		  ft.add(R.id.focused_view_container,bnf).commit();
     		
-    		getFragmentManager().executePendingTransactions();
+    		  getFragmentManager().executePendingTransactions();
+		}else{
+		Thread th=new Thread(){
+                  public void run(){
+                   handler.post(new Runnable(){
+                    public void run(){
+                     Toast.makeText(this,”Unable to connect to a network, please check your connection”,Toast.LENGTH_LONG).show();
+                    }
+                   });
+                  }
+                 }
+		}
+              th.start();
     	}
     }
 	
@@ -173,6 +189,13 @@ public void onTabUnselected(Tab tab, FragmentTransaction ft) {
 public void onTabReselected(Tab arg0, FragmentTransaction arg1) {
 	// TODO Auto-generated method stub
 	
+}
+
+private boolean isNetworkAvailable() {
+    ConnectivityManager connectivityManager 
+          = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+    NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+    return activeNetworkInfo != null && activeNetworkInfo.isConnected();
 }
    
    }
