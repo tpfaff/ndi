@@ -168,7 +168,7 @@ public class NasaAppActivity extends Activity implements ActionBar.TabListener{
 
 
 public void onTabSelected(Tab tab, FragmentTransaction f) {
-    if(connectionState){
+    if(isNetworkAvailable()){
 	switch(tab.getPosition()){
 	case 0:
 		ft=getFragmentManager().beginTransaction();
