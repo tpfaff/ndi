@@ -57,6 +57,7 @@ import android.widget.TextView;
 				protected Bitmap doInBackground(String... info){
 					URL iotd;
 					int count=info.length;
+					boolean finished=false;
 					String title="",link="",description="",date="";
 					
 					try{
@@ -73,7 +74,7 @@ import android.widget.TextView;
 						int eventType = xpp.getEventType();//returns an int which mean different things (START_DOCUMENT,START_TAG,etc)
 					
 			
-					while(eventType!=XmlPullParser.END_DOCUMENT){//while the document has words
+					while(!finished){//while the document has words
 						
 					 switch(eventType){
 						
@@ -114,12 +115,19 @@ import android.widget.TextView;
 										info[3]=link;
 										imageURL=info[3];
 									}
-								}
+								}	
+							}
+							break;
+						case XmlPullParser.END_TAG:
+							tagName=xpp.getName();
+							if(tagName.equals("item") && xpp.getEventType()==(xpp.END_TAG)){
+								finished=true;
 							}
 							break;
 						
 						}
-						eventType=xpp.next();
+					eventType=xpp.next();
+					 
 					}//switch
 						
 						publishProgress(title,description,date,link);
@@ -221,8 +229,8 @@ import android.widget.TextView;
 			    	BitmapFactory.decodeStream(new URL(imageUrl).openStream(),null,options);
 			    	DisplayMetrics displaymetrics=new DisplayMetrics();
 			    	mainActivity.getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
-			    	height=displaymetrics.heightPixels/2;
-			    	width=displaymetrics.widthPixels/2;
+			    	height=displaymetrics.heightPixels;
+			    	width=displaymetrics.widthPixels;
 
 			    	options.inSampleSize=calculateInSampleSize(options, width ,height);
 			    	options.inJustDecodeBounds=false;

@@ -93,8 +93,7 @@ public class NasaDailyImage extends Fragment{
 		if(galleryAddImg(imageName,img,dir)){
 			handler.post(new Runnable(){
 				public void run(){
-					Toast.makeText(mainActivity, "Saved", Toast.LENGTH_SHORT).show();
-					
+					Toast.makeText(mainActivity, "Saved", Toast.LENGTH_SHORT).show();	
 				}});
 			
 		}else{

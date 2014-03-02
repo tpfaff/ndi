@@ -9,12 +9,13 @@
 package com.wajumbie.nasadailyimageandnews;
 
 import java.io.File;
-
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.app.Activity;
 import android.app.FragmentTransaction;
 import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -23,6 +24,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 
 
@@ -35,7 +37,7 @@ public class NasaAppActivity extends Activity implements ActionBar.TabListener{
     private Handler handler;
     BreakingNewsFragment bnf;
     NasaDailyImage ndi;
-    
+    private boolean connectionState;
     
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -49,40 +51,45 @@ public class NasaAppActivity extends Activity implements ActionBar.TabListener{
     @Override
     public void onStart(){
     	super.onStart(); 
-        handler=new Handler();
-    	if(savedInstanceState==null){
-		if(isNetworkAvailable()){
-    		  ndi=new NasaDailyImage();
-    		  bnf=new BreakingNewsFragment();    	
-    		  ft=getFragmentManager().beginTransaction();
-    		  ft.add(R.id.focused_view_container,ndi).commit();
-    		
-    		  getFragmentManager().executePendingTransactions();
-    		  ndi.onRefresh();
-    		
-    		  ft=getFragmentManager().beginTransaction();
-    		  ft.add(R.id.focused_view_container,bnf).commit();
-    		
-    		  getFragmentManager().executePendingTransactions();
-		}else{
-		Thread th=new Thread(){
-                  public void run(){
-                   handler.post(new Runnable(){
-                    public void run(){
-                     Toast.makeText(this,”Unable to connect to a network, please check your connection”,Toast.LENGTH_LONG).show();
-                    }
-                   });
-                  }
-                 }
-		}
-              th.start();
-    	}
-    }
-	
+    	
+    }//end onstart
+
+    
+
 	@Override
 	public void onResume(){
 		super.onResume();
 		createAlbum();
+		 handler=new Handler();
+	    	if(savedInstanceState==null){
+			
+	    		  ndi=new NasaDailyImage();
+	    		  bnf=new BreakingNewsFragment();    	
+	    		  ft=getFragmentManager().beginTransaction();
+	    		  ft.add(R.id.focused_view_container,ndi).commit();
+	    		
+	    		  getFragmentManager().executePendingTransactions();
+	    		  if(isNetworkAvailable()){
+	    		  ndi.onRefresh();
+	    		
+	    		  ft=getFragmentManager().beginTransaction();
+	    		  ft.add(R.id.focused_view_container,bnf).commit();
+	    		
+	    		  getFragmentManager().executePendingTransactions();
+			}else{
+				final Context activity=this;
+				Thread th=new Thread(){
+		    		public void run(){
+					handler.post(new Runnable(){
+						public void run(){
+							Toast.makeText(activity, "Please check your connection", Toast.LENGTH_LONG).show();
+						}});
+			}
+	    	};
+	    	th.start();
+	    }//end else
+	    	}//end if
+		
 	}
 	
 	 @Override
@@ -110,7 +117,7 @@ public class NasaAppActivity extends Activity implements ActionBar.TabListener{
 	
 	@Override
 	public boolean onMenuItemSelected(int featureId, MenuItem item) {
-		
+	
 		switch(item.getItemId()){
 
 		case R.id.content_save:
@@ -118,12 +125,14 @@ public class NasaAppActivity extends Activity implements ActionBar.TabListener{
 			break;
 			
 		case R.id.content_refresh:
+			if(isNetworkAvailable()){
 			if(bnf.isHidden()){
 				ndi.onRefresh();
 			}
 			
 			if(ndi.isHidden()){
 				bnf.onRefresh();	
+			}
 			}
 			break;
 			
@@ -159,7 +168,7 @@ public class NasaAppActivity extends Activity implements ActionBar.TabListener{
 
 
 public void onTabSelected(Tab tab, FragmentTransaction f) {
-
+    if(connectionState){
 	switch(tab.getPosition()){
 	case 0:
 		ft=getFragmentManager().beginTransaction();
@@ -178,7 +187,7 @@ public void onTabSelected(Tab tab, FragmentTransaction f) {
 	    getFragmentManager().executePendingTransactions();
          break;
 	}
-	
+    }
 }
 
 public void onTabUnselected(Tab tab, FragmentTransaction ft) {
@@ -195,7 +204,8 @@ private boolean isNetworkAvailable() {
     ConnectivityManager connectivityManager 
           = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
     NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-    return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    connectionState=activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    return connectionState;
 }
    
    }
