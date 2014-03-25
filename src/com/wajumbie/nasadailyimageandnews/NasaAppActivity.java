@@ -101,6 +101,7 @@ public class NasaAppActivity extends Activity implements ActionBar.TabListener{
 
 	@Override
 	    public boolean onCreateOptionsMenu(Menu menu) {
+		if(savedInstanceState==null){
 	       MenuInflater inflater=getMenuInflater();
 	       ActionBar actionBar = getActionBar(); 
 	       actionBar.setTitle("");
@@ -111,6 +112,7 @@ public class NasaAppActivity extends Activity implements ActionBar.TabListener{
 					.setTabListener(this));
 			actionBar.addTab(actionBar.newTab().setText("Breaking news")
 					.setTabListener(this));
+		}
 	       return true;
 	    }
 
